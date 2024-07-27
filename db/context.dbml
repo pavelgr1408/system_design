@@ -10,10 +10,32 @@ Table follows {
 
 Table users {
   id integer [primary key]
-  username varchar
-  role varchar
-  created_at timestamp
+  phone integer [not null, unique]
+  name varchar
+  surname varchar
+  last_name varchar
 }
+Table chats {
+  id integer [primary key]
+  type integer
+  is_blocked integer
+
+}
+Table users_chats {
+  id integer [primary key]
+  chats_id integer [not null]
+  users_id integer [not null]
+}
+Table messenges {
+  id integer [primary key]
+  autors_id integer
+  created_time timestamp
+  text varchar(2000)
+  is_deleted integer
+}
+
+
+
 
 Table posts {
   id integer [primary key]
@@ -24,8 +46,13 @@ Table posts {
   created_at timestamp
 }
 
-Ref: posts.user_id > users.id // many-to-one
 
-Ref: users.id < follows.following_user_id
 
-Ref: users.id < follows.followed_user_id
+Ref: users.id < users_chats.users_id
+Ref: chats.id < users_chats.chats_id
+
+//Ref: posts.user_id > users.id // many-to-one
+
+//Ref: users.id < follows.following_user_id
+
+//Ref: users.id < follows.followed_user_id
